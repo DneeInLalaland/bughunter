@@ -1,0 +1,8 @@
+คำสั่งรันเว็บ
+.\venv\Scripts\Activate
+
+คำสั่งเปิดเซิฟเว่อ
+uvicorn main:app --reload --port 8000
+
+uuyx ixmk gnya zlpg
+app-password email

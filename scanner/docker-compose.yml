@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  # ==============================================
+  # Database - PostgreSQL
+  # ==============================================
+postgres:
+  image: postgres:14
+  container_name: vuln_db
+  environment:
+    POSTGRES_USER: scanuser
+    POSTGRES_PASSWORD: scanpass123
+    POSTGRES_DB: vulnerability_scanner
+  ports:
+    - "5432:5432"
+  volumes:
+      - postgres_data:/var/lib/postgresql/data
+  networks:
+      - vuln_network
+  healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  restart: unless-stopped
+
+  # ==============================================
+  # Scanner API (Person 1) - PORT 5001
+  # ==============================================
+  scanner:
+    build:
+      context: ./vulnerability-scanner
+      dockerfile: Dockerfile
+    container_name: scanner_api
+    ports:
+      - "${SCANNER_API_PORT}:5001"
+    networks:
+      - vuln_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ==============================================
+  # ML API (Person 2) - PORT 5000
+  # TODO: เมื่อ Person 2 ส่งโค้ดมา ให้ uncomment ส่วนนี้
+  # ==============================================
+  # ml:
+  #   build:
+  #     context: ./ml-risk-scorer
+  #     dockerfile: Dockerfile
+  #   container_name: ml_api
+  #   ports:
+  #     - "${ML_API_PORT}:5000"
+  #   networks:
+  #     - vuln_network
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   restart: unless-stopped
+
+  # ==============================================
+  # Backend API (Person 3) - PORT 8000
+  # TODO: เมื่อ Person 3 ส่งโค้ดมา ให้ uncomment ส่วนนี้
+  # ==============================================
+  # backend:
+  #   build:
+  #     context: ./backend-api
+  #     dockerfile: Dockerfile
+  #   container_name: backend_api
+  #   ports:
+  #     - "${BACKEND_API_PORT}:8000"
+  #   environment:
+  #     DATABASE_URL: ${DATABASE_URL}
+  #     SCANNER_API_URL: http://scanner:5001
+  #     ML_API_URL: http://ml:5000
+  #     LINE_NOTIFY_TOKEN: ${LINE_NOTIFY_TOKEN}
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     scanner:
+  #       condition: service_healthy
+  #     ml:
+  #       condition: service_healthy
+  #   networks:
+  #     - vuln_network
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   restart: unless-stopped
+
+  # ==============================================
+  # Frontend (Person 4) - PORT 80
+  # TODO: เมื่อ Person 4 ส่งโค้ดมา ให้ uncomment ส่วนนี้
+  # ==============================================
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: frontend_app
+  #   ports:
+  #     - "80:80"
+  #   environment:
+  #     VITE_API_URL: ${VITE_API_URL}
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - vuln_network
+  #   restart: unless-stopped
+
+# ==============================================
+# Volumes
+# ==============================================
+volumes:
+  postgres_data:
+
+# ==============================================
+# Networks
+# ==============================================
+networks:
+  vuln_network:
+    driver: bridge

@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: vuln_db
+    environment:
+      POSTGRES_USER: scanuser
+      POSTGRES_PASSWORD: scanpass123
+      POSTGRES_DB: vulnerability_scanner
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - vuln_network
+
+  scanner:
+    build:
+      context: ./scanner/vulnerability-scanner
+      dockerfile: Dockerfile
+    container_name: scanner_api
+    ports:
+      - "5001:5001"
+    networks:
+      - vuln_network
+    restart: unless-stopped
+
+  ml:
+    build:
+      context: ./ml-model
+      dockerfile: Dockerfile
+    container_name: ml_api
+    ports:
+      - "5300:5000"
+    networks:
+      - vuln_network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend_api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://scanuser:scanpass123@postgres:5432/vulnerability_scanner
+      SCANNER_API_URL: http://scanner:5001
+      ML_API_URL: http://ml:5000
+    depends_on:
+      - postgres
+      - scanner
+      - ml
+    networks:
+      - vuln_network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    ports:
+      - "80:80"
+    environment:
+      VITE_API_URL: http://localhost:8000/api
+    depends_on:
+      - backend
+    networks:
+      - vuln_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  vuln_network:
+    driver: bridge

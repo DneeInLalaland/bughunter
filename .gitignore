@@ -1,0 +1,23 @@
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Node / frontend
+node_modules/
+dist/
+build/
+.env
+
+# โมเดล AI (ใหญ่เกินไป โหลดแยก ดูใน README)
+ml-model/
+
+# ขยะ macOS
+.DS_Store
+__MACOSX/
+
+# ไฟล์ backup
+*.bak
+*.backup

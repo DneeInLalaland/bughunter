@@ -1,0 +1,7 @@
+DB_CONFIG = {
+    "dbname": "vulnerability_scanner",
+    "user": "scanuser",
+    "password": "scanpass123",
+    "host": "postgres",
+    "port": "5432"
+}
