@@ -47,8 +47,8 @@ An automated web vulnerability scanning system with Machine Learning-based risk 
 
 ```bash
 # Clone repository
-git clone https://github.com/DneeInLalaland/bughunter3.git
-cd bughunter3
+git clone https://github.com/DneeInLalaland/bughunter.git
+cd bughunter
 
 # Start all services
 docker-compose up -d
