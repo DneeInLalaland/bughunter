@@ -120,12 +120,6 @@ bughunter/
 | Features | 13 features from CVE data |
 | Training Data | 150,000+ vulnerabilities from NVD |
 
-### User Study Results
-
-- **65% faster** critical vulnerability resolution
-- **26% reduction** in assessment time
-- **8.7/10** user satisfaction score
-
 ---
 
 ## 🛠️ Tech Stack
