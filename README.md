@@ -4,6 +4,8 @@
 
 An automated web vulnerability scanning system with Machine Learning-based risk prioritization.
 
+**Project plan:** [Notion board](https://app.notion.com/p/2d836c4b62444c62ba1f8d55cbeb53c8?v=2b2371a0b7d280ffb649000c0b0a75e1) — five phases with task owners, dependencies, risk ratings and a definition of done.
+
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
 ![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?logo=fastapi)
