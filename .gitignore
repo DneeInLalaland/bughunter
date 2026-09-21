@@ -12,7 +12,6 @@ build/
 .env
 
 # โมเดล AI (ใหญ่เกินไป โหลดแยก ดูใน README)
-ml-model/
 
 # ขยะ macOS
 .DS_Store
@@ -21,3 +20,11 @@ __MACOSX/
 # ไฟล์ backup
 *.bak
 *.backup
+
+# ML model - large or local-only files
+ml-model/venv/
+ml-model/*.zip
+**/__pycache__/
+**/.ipynb_checkpoints/
+.DS_Store
+ml-model/data/
