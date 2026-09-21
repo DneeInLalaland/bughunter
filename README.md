@@ -17,7 +17,6 @@ An automated web vulnerability scanning system with Machine Learning-based risk 
 - 🤖 **AI Risk Scoring** - Machine Learning prioritizes vulnerabilities (93.42% Accuracy)
 - 📊 **Beautiful Dashboard** - Real-time visualization with interactive charts
 - 📄 **PDF Reports** - Auto-generated security reports
-- 🔔 **LINE Notifications** - Instant alerts for critical vulnerabilities
 - 🐳 **Docker Ready** - Easy deployment with Docker Compose
 
 ---
@@ -162,10 +161,6 @@ SCANNER_API_URL=http://localhost:5001
 
 # ML API
 ML_API_URL=http://localhost:5000
-
-# LINE Notify (Optional)
-LINE_NOTIFY_TOKEN=your_token_here
-```
 
 ---
 
